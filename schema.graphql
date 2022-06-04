@@ -1,3 +1,33 @@
+type Job @entity {
+  id: ID!
+  pubId: BigInt!
+  fromProfile: Profile!
+  contentURI: String
+  timestamp: BigInt!
+  referenceModule: Bytes!
+  referenceModuleReturnData: Bytes
+  collectModule: Bytes!
+  collectModuleReturnData: Bytes
+}
+
+type Apply @entity {
+  id: ID!
+  fromAccount: Account
+  fromProfileSTR: String
+  toJob: [Job!]
+  timestamp: BigInt!
+}
+
+# todo:follow organization
+# todo:add [Profiles] to organization
+type Organization @entity {
+  id: ID!
+  name: String
+  owner: Account!
+  jobs: [Job!]
+  createdAt: BigInt
+}
+
 type Stat @entity {
   id: ID!
   "Total profiles"

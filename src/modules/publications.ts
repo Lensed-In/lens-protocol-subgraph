@@ -1,6 +1,6 @@
 import { ADDRESS_ZERO, integer } from '@protofire/subgraph-toolkit'
 import { BigInt } from '@graphprotocol/graph-ts'
-import { Post, Comment, Mirror } from '../../generated/schema'
+import { Post, Comment, Mirror, Job } from '../../generated/schema'
 import { stats } from './lens'
 
 export namespace publicactions {
@@ -57,5 +57,17 @@ export namespace publicactions {
       lensInfo.save()
     }
     return comment as Comment
+  }
+
+  export function getOrCreateJob(profileId: BigInt, pubId: BigInt): Job {
+    let jobId = helpers.getNewPublicactionId(profileId, pubId)
+    let job = Job.load(jobId)
+    if (job == null) {
+      job = new Job(jobId)
+
+      // +1 amount of Jobs
+    }
+
+    return job as Job
   }
 }
