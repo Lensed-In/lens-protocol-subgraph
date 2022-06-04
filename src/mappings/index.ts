@@ -14,7 +14,17 @@ import {
   DefaultProfileSet,
   FollowNFTTransferred,
 } from '../../generated/LensHub/LensHub'
-import { accounts, profiles, creators, publicactions, follows, transfersNFT, stats, organizations } from '../modules'
+import {
+  accounts,
+  applicants,
+  profiles,
+  creators,
+  publicactions,
+  follows,
+  transfersNFT,
+  stats,
+  organizations,
+} from '../modules'
 import { Account } from '../../generated/schema'
 import { LENS_ID } from '../constanst'
 
@@ -24,6 +34,34 @@ export function handleOrganizationCreated(event: ProfileCreated): void {
   organization.owner = event.params.to.toHexString()
   organization.createdAt = event.params.timestamp
   organization.save()
+}
+
+export function handleJobCreated(event: PostCreated): void {
+  let job = publicactions.getOrCreateJob(event.params.profileId, event.params.pubId)
+  job.fromProfile = event.params.profileId.toString()
+  job.pubId = event.params.pubId
+  job.timestamp = event.params.timestamp
+  job.referenceModule = event.params.referenceModule
+  job.referenceModuleReturnData = event.params.referenceModuleReturnData
+  job.contentURI = event.params.contentURI
+  job.save()
+}
+
+export function handleApplytoJobCreated(event: Followed): void {
+  let newApplicants: string[] = []
+  newApplicants = event.params.profileIds.map<string>((profileId: BigInt): string => profileId.toString())
+
+  let applicant = applicants.getOrCreateApply(
+    event.params.follower
+      .toHexString()
+      .concat('-')
+      .concat(event.transaction.hash.toHex()),
+  )
+  applicant.fromAccount = event.params.follower.toHexString()
+  applicant.fromProfileSTR = event.params.follower.toHexString()
+  applicant.toJob = newApplicants
+  applicant.timestamp = event.params.timestamp
+  applicant.save()
 }
 
 export function handleProfileCreated(event: ProfileCreated): void {
