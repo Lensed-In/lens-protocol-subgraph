@@ -12,12 +12,9 @@ type Job @entity {
 
 type Apply @entity {
   id: ID!
-  "Applyer Account. "
   fromAccount: Account
   fromProfileSTR: String
-  "Array of profiles that are applyed"
   toJob: [Job!]
-  "Date from when the apply initiated"
   timestamp: BigInt!
 }
 
