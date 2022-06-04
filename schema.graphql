@@ -1,22 +1,28 @@
 type Job @entity {
   id: ID!
-  title: String
-  imageURI: String
-  applicants: [Account!]
-  applicantsLimit: Int
-  organization: Organization
-  description: String
-  createdAt: BigInt
-  lastUpdatedAt: BigInt
-  status: JobStatus
+  pubId: BigInt!
+  fromProfile: Profile!
+  contentURI: String
+  timestamp: BigInt!
+  referenceModule: Bytes!
+  referenceModuleReturnData: Bytes
+  collectModule: Bytes!
+  collectModuleReturnData: Bytes
 }
 
-enum JobStatus {
-  Open
-  Closed
-  Stopped
+type Apply @entity {
+  id: ID!
+  "Applyer Account. "
+  fromAccount: Account
+  fromProfileSTR: String
+  "Array of profiles that are applyed"
+  toJob: [Job!]
+  "Date from when the apply initiated"
+  timestamp: BigInt!
 }
 
+# todo:follow organization
+# todo:add [Profiles] to organization
 type Organization @entity {
   id: ID!
   name: String
