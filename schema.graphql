@@ -1,16 +1,17 @@
 type Job @entity {
   id: ID!
   title: String
+  imageURI: String
   applicants: [Account!]
   applicantsLimit: Int
   organization: Organization
   description: String
   createdAt: BigInt
   lastUpdatedAt: BigInt
-  status: Status
+  status: JobStatus
 }
 
-enum Status {
+enum JobStatus {
   Open
   Closed
   Stopped
@@ -19,6 +20,7 @@ enum Status {
 type Organization @entity {
   id: ID!
   name: String
+  owner: Account!
   jobs: [Job!]
   createdAt: BigInt
 }

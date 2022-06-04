@@ -14,9 +14,17 @@ import {
   DefaultProfileSet,
   FollowNFTTransferred,
 } from '../../generated/LensHub/LensHub'
-import { accounts, profiles, creators, publicactions, follows, transfersNFT, stats } from '../modules'
+import { accounts, profiles, creators, publicactions, follows, transfersNFT, stats, organizations } from '../modules'
 import { Account } from '../../generated/schema'
 import { LENS_ID } from '../constanst'
+
+export function handleOrganizationCreated(event: ProfileCreated): void {
+  let organization = organizations.getOrCreateOrganization(event.params.profileId, event.params.timestamp)
+  organization.name = event.params.handle
+  organization.owner = event.params.to.toHexString()
+  organization.createdAt = event.params.timestamp
+  organization.save()
+}
 
 export function handleProfileCreated(event: ProfileCreated): void {
   let profile = profiles.getOrCreateProfile(event.params.profileId, event.params.timestamp)
