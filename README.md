@@ -1,6 +1,14 @@
 # Subgraph for Lens Protocols
 
--In process-
+## Deployed :
+https://thegraph.com/explorer/subgraph/lensed-in/subgraph_mumbai
+https://thegraph.com/explorer/subgraph/lensed-in/subgraph_matic
+
+## Subgraph endpoints:
+Queries (HTTP):     https://api.thegraph.com/subgraphs/name/lensed-in/subgraph_mumbai
+Queries (HTTP):     https://api.thegraph.com/subgraphs/name/lensed-in/subgraph_matic 
+
+
 
 **How to deploy**
 
